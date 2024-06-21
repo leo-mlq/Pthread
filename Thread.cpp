@@ -16,24 +16,6 @@
 
 
 
-/*
- * these could go in a .h file but i'm lazy
- * see comments before functions for detail
- */
-void signal_handler(int signo);
-void the_nowhere_zone(void);
-static int ptr_mangle(int p);
-//sync functions
-void lock();
-void unlock();
-int pthread_join(pthread_t thread, void**value_ptr);
-void pthread_exit_wrapper();
-//semaphore functions:
-int sem_init(sem_t *sem, int pshared, unsigned value);
-int sem_destroy(sem_t *sem);
-int sem_wait(sem_t *sem);
-int sem_post(sem_t *sem);
-
 
 /*
  *Timer globals
@@ -62,40 +44,8 @@ static struct sigaction act;
 #define EXITED 4
 
 
-/*
- * Thread Control Block definition
- */
-typedef struct {
-	/* pthread_t usually typedef as unsigned long int */
-	pthread_t id;
-	/* jmp_buf usually defined as struct with __jmpbuf internal buffer
-	   which holds the 6 registers for saving and restoring state */
-	jmp_buf jb;
-	/* stack pointer for thread; for main thread, this will be NULL */
-	char *stack;
 
-	//change
-	//bool isBlocked = false;
-	int status;
-	sem_t real_sem;
-	//end change
-} tcb_t;
 
-//
-typedef struct{
-	int sem_value;
-	std::list<tcb_t> *wait_queue;
-	bool isInit = false;
-} semaphore;
-
-typedef struct{
-	pthread_t id;
-	void* return_value;
-} dead_tcb_t;
-
-/*
- * Globals for thread scheduling and control
- */
 
 /* queue for pool thread, easy for round robin */
 //change to list, traverse the list
