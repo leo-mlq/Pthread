@@ -37,13 +37,14 @@ typedef struct{
 
 /*function declarations*/
 static void init();
-static void scheduler(int sig);
 static long int i64_ptr_mangle(long int p);
-static TCB find_available(list<TCB>& thread_pool);
-static void destroy_deadThreads(list<TCB>& dead_pool);
+tcb_t* find_thread(pthread_t thread)
+pthread_t pthread_self(void)
 int pthread_create(pthread_t *restrict_thread, const pthread_attr_t 
 *restrict_attr, void *(*start_routine)(void*), void *restrict_arg);
 void pthread_exit(void* val);
+void signal_handler(int signo);
+void the_nowhere_zone(void);
 
 //semaphore functions:
 int sem_init(sem_t *sem, int pshared, unsigned value);
