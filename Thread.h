@@ -6,17 +6,34 @@
 #include <cstring>
 #include <signal.h>
 using namespace std;
-struct TCB{
-    /*1. thread id*/
-    pthread_t id;
-    /*2. status*/
-    int status;
-    /*3. stack to store thread variables*/
-    char* stack;
-    /*4. stores the information of a calling environment to be restored 
-    later.*/
-    jmp_buf jumpBuffer;
-};
+
+typedef struct {
+	/* pthread_t usually typedef as unsigned long int */
+	pthread_t id;
+	/* jmp_buf usually defined as struct with __jmpbuf internal buffer
+	   which holds the 6 registers for saving and restoring state */
+	jmp_buf jb;
+	/* stack pointer for thread; for main thread, this will be NULL */
+	char *stack;
+
+	//change
+	//bool isBlocked = false;
+	int status;
+	sem_t real_sem;
+	//end change
+} tcb_t;
+
+//
+typedef struct{
+	int sem_value;
+	std::list<tcb_t> *wait_queue;
+	bool isInit = false;
+} semaphore;
+
+typedef struct{
+	pthread_t id;
+	void* return_value;
+} dead_tcb_t;
 /*function declarations*/
 static void init();
 static void scheduler(int sig);
