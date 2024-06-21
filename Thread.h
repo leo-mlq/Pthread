@@ -26,3 +26,16 @@ static void destroy_deadThreads(list<TCB>& dead_pool);
 int pthread_create(pthread_t *restrict_thread, const pthread_attr_t 
 *restrict_attr, void *(*start_routine)(void*), void *restrict_arg);
 void pthread_exit(void* val);
+
+//semaphore functions:
+int sem_init(sem_t *sem, int pshared, unsigned value);
+int sem_destroy(sem_t *sem);
+int sem_wait(sem_t *sem);
+int sem_post(sem_t *sem);
+
+//sync functions
+void lock();
+void unlock();
+int pthread_join(pthread_t thread, void**value_ptr);
+void pthread_exit_wrapper();
+
