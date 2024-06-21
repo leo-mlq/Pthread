@@ -26,7 +26,7 @@ typedef struct {
 //
 typedef struct{
 	int sem_value;
-	std::list<tcb_t> *wait_queue;
+	list<tcb_t> *wait_queue;
 	bool isInit = false;
 } semaphore;
 
@@ -34,6 +34,7 @@ typedef struct{
 	pthread_t id;
 	void* return_value;
 } dead_tcb_t;
+
 /*function declarations*/
 static void init();
 static void scheduler(int sig);
